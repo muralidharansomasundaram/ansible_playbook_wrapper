@@ -1,0 +1,42 @@
+---
+# tasks file for fileCreation
+     - name: Getting ENV details
+       pause:
+         prompt: "Kinldy enter the ENV detail"
+       register: env_details 
+     - set_fact:
+         CHEF_ENV_DETAIL: "{{ env_details.user_input }}"
+     - name: getting env.rb value
+       pause: 
+         prompt: "Kindly enter env.rb file value to be replaced in chef cookbook"
+       register: rb_details
+     - set_fact: 
+         ENV_FILES_VALUE: "{{ rb_details.user_input }}"
+     - name: Create Chef-dev directory
+       file:
+         path: /{{ CHEF_DIR }}/{{ item }}
+         state: directory
+       with_items:
+        - cookbooks
+        - environments
+     - name: creating cookbook folder
+       file:
+        path: /{{ CHEF_DIR }}/cookbooks/fileCreation
+        state: directory
+     - name: Downloading cookbook packge from GIT Repo
+       git:
+         repo: 'https://github.com/muralidharansomasundaram/fileCreation.git'
+         dest: /{{ CHEF_DIR }}/cookbooks/fileCreation
+     - name: copying solo.rb and startup.json
+       template:
+         src: "{{ item.src }}" 
+         dest: "/{{ CHEF_DIR }}/{{ item.dest }}"
+       with_items:
+        - { src: templates/solo_template.rb.j2, dest: solo.rb }
+        - { src: templates/startup.json.j2, dest: startup.json }
+     - name:  copy env_template to chef env folder
+       template:
+         src: templates/env_template.rb.j2 
+         dest: /{{ CHEF_DIR }}/environments/{{ CHEF_ENV_DETAIL }}.rb
+     - name: Invoke Chef-client on remote node
+       shell: "{{ CHEF_CMD_TO_INVOKE_COOKBOOK }}"

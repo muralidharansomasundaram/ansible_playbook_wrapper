@@ -1,0 +1,5 @@
+---
+# vars file for fileCreation
+
+CHEF_CMD_TO_INVOKE_COOKBOOK: " chef-solo -c /{{ CHEF_DIR }}/solo.rb -j /{{ CHEF_DIR }}/startup.json -E {{ CHEF_ENV_DETAIL }} "
+CHEF_DIR: chef-cookbook-install
