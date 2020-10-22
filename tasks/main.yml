@@ -3,7 +3,7 @@
   become: yes
   become_method: sudo
 
-  - name: including package specific variable
+- name: including package specific variable
     include_vars: prompt_var.yml
 
   roles:

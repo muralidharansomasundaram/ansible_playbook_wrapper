@@ -1,25 +1,14 @@
 
-- name: Enter Cookbook name
-  pause:
-    prompt: "Kindly enter chef cookbook name"
-  register: cookbook_name
-- set_fact:
-    COOKBOOK_NAME: "{{ cookbook_name.user_input }}"
-- name: Enter Cookbook version
-  pause:
-    prompt: "Kindly enter chef cookbook version"
-  register: cookbook_version
-- set_fact:
-    COOKBOOK_VERSION: "{{ cookbook_version.user_input }}"
-- name: Getting ENV details
-  pause:
-    prompt: "Kinldy enter the ENV detail"
-  register: env_details
-- set_fact:
-    CHEF_ENV_DETAIL: "{{ env_details.user_input }}"
-- name: getting env.rb value
-    pause:
-     prompt: "Kindly enter env.rb file value to be replaced in chef cookbook"
-    register: rb_details
-- set_fact:
-    ENV_FILES_VALUE: "{{ rb_details.user_input }}"
+vars_prompt:
+     - name: COOKBOOK_NAME
+       prompt: Kindly enter chef cookbook name
+       private: no
+     - name: COOKBOOK_VERSION
+       prompt: Kindly enter chef cookbook version
+       private: no
+     - name: CHEF_ENV_DETAIL
+       prompt: Kinldy enter the ENV detail
+       private: no
+     - name: ENV_FILES_VALUE
+       prompt: Kindly enter env.rb file value to be replaced in chef cookbook
+       private: no
